@@ -11,15 +11,15 @@ import java.math.BigInteger;
  */
 public final class Fraction extends Number implements Comparable<Fraction> {
 
-	private long numerator;
-	private long denominator;
+	public long numerator;
+	public long denominator;
 
 	public Fraction(long numerator) {
 		this.numerator = numerator;
 		this.denominator = 1;
 	}
-	
-	public Fraction(long numerator, long denominator) {
+
+	public Fraction(long numerator, long denominator) throws ArithmeticException {
 		this.numerator = numerator;
 		this.denominator = denominator;
 	}
@@ -27,42 +27,14 @@ public final class Fraction extends Number implements Comparable<Fraction> {
 	public static Fraction zero() {
 		return new Fraction(0, 1);
 	}
-	
+
 	public static Fraction one() {
 		return new Fraction(1);
 	}
 
-	/**
-	 * @return the numerator
-	 */
-	public long getNumerator() {
-		return numerator;
-	}
-
-	/**
-	 * @param numerator the numerator to set
-	 */
-	public void setNumerator(long numerator) {
-		this.numerator = numerator;
-	}
-
-	/**
-	 * @return the denominator
-	 */
-	public long getDenominator() {
-		return denominator;
-	}
-
-	/**
-	 * @param denominator the denominator to set
-	 */
-	public void setDenominator(long denominator) {
-		this.denominator = denominator;
-	}
-
 	public Fraction add(Fraction anotherFraction) throws ArithmeticException, NullPointerException {
 		if (anotherFraction == null)
-			throw new NullPointerException("anotherFractioncannot is null");
+			throw new NullPointerException("anotherFraction is null");
 
 		checkDivByZero();
 		anotherFraction.checkDivByZero();
@@ -70,15 +42,31 @@ public final class Fraction extends Number implements Comparable<Fraction> {
 		Fraction s1 = this.simplify();
 		Fraction s2 = anotherFraction.simplify();
 
-		return new Fraction(s1.numerator * s2.denominator + s1.denominator * s2.numerator,
-				s1.denominator * s2.denominator).simplify();
+		return new Fraction(
+				Math.addExact(Math.multiplyExact(s1.numerator, s2.denominator),
+						Math.multiplyExact(s1.denominator, s2.numerator)),
+				Math.multiplyExact(s1.denominator, s2.denominator)).simplify();
+	}
+
+	public Fraction add(BigInteger anotherInteger) throws ArithmeticException, NullPointerException {
+		if (anotherInteger == null)
+			throw new NullPointerException("anotherInteger is null");
+
+		return add(new Fraction(anotherInteger.longValue()));
 	}
 
 	public Fraction subtract(Fraction anotherFraction) throws ArithmeticException, NullPointerException {
 		if (anotherFraction == null)
-			throw new NullPointerException("anotherFractioncannot is null");
+			throw new NullPointerException("anotherFraction is null");
 
 		return this.add(anotherFraction.negate());
+	}
+
+	public Fraction subtract(BigInteger anotherInteger) throws ArithmeticException, NullPointerException {
+		if (anotherInteger == null)
+			throw new NullPointerException("anotherInteger is null");
+
+		return subtract(new Fraction(anotherInteger.longValue()));
 	}
 
 	public Fraction multiply(Fraction anotherFraction) throws ArithmeticException, NullPointerException {
@@ -91,7 +79,15 @@ public final class Fraction extends Number implements Comparable<Fraction> {
 		Fraction s1 = this.simplify();
 		Fraction s2 = anotherFraction.simplify();
 
-		return new Fraction(s1.numerator * s2.numerator, s1.denominator * s2.denominator).simplify();
+		return new Fraction(Math.multiplyExact(s1.numerator, s2.numerator),
+				Math.multiplyExact(s1.denominator, s2.denominator)).simplify();
+	}
+
+	public Fraction multiply(BigInteger anotherInteger) throws ArithmeticException, NullPointerException {
+		if (anotherInteger == null)
+			throw new NullPointerException("anotherInteger is null");
+
+		return multiply(new Fraction(anotherInteger.longValue()));
 	}
 
 	public Fraction divide(Fraction anotherFraction) throws ArithmeticException, NullPointerException {
@@ -101,8 +97,15 @@ public final class Fraction extends Number implements Comparable<Fraction> {
 		return this.multiply(anotherFraction.reciprocal());
 	}
 
+	public Fraction divide(BigInteger anotherInteger) throws ArithmeticException, NullPointerException {
+		if (anotherInteger == null)
+			throw new NullPointerException("anotherInteger is null");
+
+		return divide(new Fraction(anotherInteger.longValue()));
+	}
+
 	public Fraction negate() throws ArithmeticException {
-		return new Fraction(-numerator, denominator).simplify();
+		return new Fraction(Math.negateExact(numerator), denominator).simplify();
 	}
 
 	public Fraction reciprocal() throws ArithmeticException {
@@ -159,7 +162,7 @@ public final class Fraction extends Number implements Comparable<Fraction> {
 	@Override
 	public float floatValue() throws ArithmeticException {
 		checkDivByZero();
-		return ((float)numerator / (float) denominator);
+		return ((float) numerator / (float) denominator);
 	}
 
 	@Override
