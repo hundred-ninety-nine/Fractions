@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          echo ${{ toJson(github) }}
+          echo "${{ toJson(github) }}"
       - uses: gittools/actions/gitversion/setup@v1.1.1
         with:
           versionSpec: '5.x'
