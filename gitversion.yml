@@ -1,6 +1,10 @@
 next-version: 1.0.0
 increment: Patch
 branches:
+  master:
+    regex: refs/heads/master
+    mode: ContinuousDeployment
+    tag: ''
   pull-requests:
     regex: refs/pull/([0-9]+)/merge
     mode: Mainline
