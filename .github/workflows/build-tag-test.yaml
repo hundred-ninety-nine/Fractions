@@ -20,8 +20,10 @@ jobs:
       - id: version-step
         uses: gittools/actions/gitversion/execute@v1.1.1
       - run: |
-          echo "semVer: ${{ steps.version-step.outputs.semVer }}
-          echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}
+          echo "semVer: ${{ steps.version-step.outputs.semVer }}"
+          echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}"
+          echo "sha: ${{ steps.version-step.outputs.sha }}"
+          echo "shortSha: ${{ steps.version-step.outputs.shortSha }}"
       - name: Build
         id: skiptest
         run: |
