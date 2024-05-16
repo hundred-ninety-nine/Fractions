@@ -6,8 +6,8 @@ branches:
     mode: ContinuousDeployment
     tag: ''
   pull-requests:
-    regex: refs/pull/([0-9]+)/merge
-    mode: Mainline
+    regex: refs/pull/([0-9]+)/head
+    mode: ContinuousDeployment
     tag: pre-release
     source-branches:
       - master
