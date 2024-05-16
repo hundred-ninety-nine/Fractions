@@ -24,6 +24,7 @@ jobs:
           echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}"
           echo "sha: ${{ steps.version-step.outputs.sha }}"
           echo "shortSha: ${{ steps.version-step.outputs.shortSha }}"
+          echo "branchName: ${{ steps.version-step.outputs.branchName }}"
       - name: Build
         id: skiptest
         run: |
