@@ -19,6 +19,8 @@ jobs:
           preferLatestVersion: true
       - id: version-step
         uses: gittools/actions/gitversion/execute@v1.1.1
+        with:
+          useConfigFile: true
       - run: |
           echo "semVer: ${{ steps.version-step.outputs.semVer }}"
           echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}"
