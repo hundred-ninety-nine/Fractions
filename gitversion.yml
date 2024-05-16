@@ -1,8 +1,10 @@
 next-version: 1.0.0
 branches:
   pull-requests:
-    regex: refs/pull/*/merge
-    mode: continuousDeployment
+    regex: refs/pull/([0-9]+)/merge
+    mode: ContinuousDeployment
     tag: pre-release
+    source-branches:
+      - master
 continuous-delivery-fallback-tag: '%NEXT_VERSION%-pre-%COMMITS_SINCE_TAG%-g%SHORT_SHA%'
 commit-date-format: "yyyyMMddHHmmss"
