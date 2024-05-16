@@ -3,7 +3,7 @@ increment: Patch
 branches:
   pull-requests:
     regex: refs/pull/([0-9]+)/merge
-    mode: ContinuousDeployment
+    mode: Mainline
     tag: pre-release
     source-branches:
       - master
