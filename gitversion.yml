@@ -1,4 +1,5 @@
 next-version: 1.0.0
+increment: Patch
 branches:
   pull-requests:
     regex: refs/pull/([0-9]+)/merge
