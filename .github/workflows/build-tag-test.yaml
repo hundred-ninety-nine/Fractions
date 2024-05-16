@@ -10,7 +10,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gittools/actions/gitversion/setup@v1.1.1
+        with:
+          versionSpec: '5.x'
+          preferLatestVersion: true
+      - id: version-step
+        uses: gittools/actions/gitversion/execute@v1.1.1
+      - run: |
+          echo "semVer: ${{ steps.version-step.outputs.semVer }}
+          echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}
       - name: Build
         id: skiptest
         run: |
