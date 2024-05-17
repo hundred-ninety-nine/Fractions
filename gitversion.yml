@@ -1,15 +1,35 @@
-next-version: 1.0.0
-increment: Patch
-branches:
-  master:
-    regex: refs/heads/master
-    mode: ContinuousDeployment
-    tag: ''
-  pull-requests:
-    regex: refs/pull/([0-9]+)/head
-    mode: ContinuousDeployment
-    tag: pre-release
-    source-branches:
-      - master
+mode: Mainline
+increment: Inherit
+tag-prefix: '[vV]'
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?(none|skip)'
 continuous-delivery-fallback-tag: '%NEXT_VERSION%-pre-%COMMITS_SINCE_TAG%-g%SHORT_SHA%'
 commit-date-format: "yyyyMMddHHmmss"
+branches:
+  main:
+    regex: ^master$|^main$
+    mode: ContinuousDelivery
+    tag: ''
+    increment: None
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    source-branches: [ ]
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: true
+    pre-release-weight: 55000
+  pull-request:
+    regex: ^(pull|pull\-requests|pr)[/-]
+    mode: ContinuousDelivery
+    tag: '{ShortSha}'
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    tag-number-pattern: '[/-](?<number>\d+)[-/]'
+    track-merge-target: false
+    source-branches: [ 'main' ]
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+    pre-release-weight: 30000
