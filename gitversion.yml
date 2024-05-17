@@ -22,9 +22,9 @@ branches:
     pre-release-weight: 55000
   pull-request:
     regex: ^(pull|pull\-requests|pr)[/-]
+    assembly-versioning-format: '{Major}.{Minor}.{Patch}-{ShortSha}'
     mode: ContinuousDelivery
-    tag:
-      commit: true
+    tag: ''
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
