@@ -19,6 +19,7 @@ jobs:
           echo "${{ github.event.pull_request.head.sha }}"
           echo "${{ github.sha }}"
           echo "${{ toJson(github) }}"
+          git checkout ${{ github.event.pull_request.head.ref }}
       - uses: gittools/actions/gitversion/setup@v1.1.1
         with:
           versionSpec: '5.x'
