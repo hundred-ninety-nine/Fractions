@@ -5,7 +5,6 @@ major-version-bump-message: '\+semver:\s?(breaking|major)'
 minor-version-bump-message: '\+semver:\s?(feature|minor)'
 patch-version-bump-message: '\+semver:\s?(fix|patch)'
 no-bump-message: '\+semver:\s?(none|skip)'
-continuous-delivery-fallback-tag: 'testtag'
 commit-date-format: "yyyyMMddHHmmss"
 branches:
   main:
@@ -20,13 +19,12 @@ branches:
     is-release-branch: false
     is-mainline: true
     pre-release-weight: 55000
-  pull-request:
+  feature:
     regex: ^(pull|pull\-requests|pr)[/-]
-    mode: ContinuousDeployment
-    tag: ''
+    mode: ContinuousDelivery
+    tag: useBranchName
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
-    tag-number-pattern: '[/-](?<number>\d+)[-/]'
     track-merge-target: false
     source-branches: [ 'main' ]
     tracks-release-branches: false
