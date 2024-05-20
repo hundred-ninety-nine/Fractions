@@ -20,7 +20,7 @@ branches:
     is-mainline: true
     pre-release-weight: 55000
   feature:
-    regex: ^(pull|pull\-requests|pr)[/-]
+    regex: ^(features?|dependabot)[/-]
     mode: ContinuousDelivery
     tag: useBranchName
     increment: Inherit
