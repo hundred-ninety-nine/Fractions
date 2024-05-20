@@ -5,7 +5,7 @@ major-version-bump-message: '\+semver:\s?(breaking|major)'
 minor-version-bump-message: '\+semver:\s?(feature|minor)'
 patch-version-bump-message: '\+semver:\s?(fix|patch)'
 no-bump-message: '\+semver:\s?(none|skip)'
-continuous-delivery-fallback-tag: '%NEXT_VERSION%-pre-%COMMITS_SINCE_TAG%-g%SHORT_SHA%'
+continuous-delivery-fallback-tag: "{ShortSha}"
 commit-date-format: "yyyyMMddHHmmss"
 branches:
   main:
@@ -22,8 +22,8 @@ branches:
     pre-release-weight: 55000
   pull-request:
     regex: ^(pull|pull\-requests|pr)[/-]
-    mode: ContinuousDelivery
-    tag: useCommitHash
+    mode: ContinuousDeployment
+    tag: ''
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     tag-number-pattern: '[/-](?<number>\d+)[-/]'
