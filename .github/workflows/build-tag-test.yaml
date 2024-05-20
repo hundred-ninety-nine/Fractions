@@ -15,6 +15,7 @@ jobs:
           fetch-depth: 0
       - run: |
           git branch
+          echo "${{ github.event.pull_request.head.ref }}"
           echo "${{ github.event.pull_request.head.sha }}"
           echo "${{ github.sha }}"
           echo "${{ toJson(github) }}"
