@@ -14,6 +14,9 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
+          git branch
+          echo "${{ github.event.pull_request.head.sha }}"
+          echo "${{ github.sha }}"
           echo "${{ toJson(github) }}"
       - uses: gittools/actions/gitversion/setup@v1.1.1
         with:
@@ -24,10 +27,6 @@ jobs:
         with:
           useConfigFile: true
           configFilePath: gitversion.yml
-      - run: |
-          pwd
-          ls -l .git/gitversion_cache
-          cat *.yml
       - run: |
           echo "semVer: ${{ steps.version-step.outputs.semVer }}"
           echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}"
