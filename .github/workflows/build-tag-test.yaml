@@ -25,6 +25,8 @@ jobs:
           useConfigFile: true
           configFilePath: gitversion.yml
       - run: |
+          pwd
+      - run: |
           echo "semVer: ${{ steps.version-step.outputs.semVer }}"
           echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}"
           echo "sha: ${{ steps.version-step.outputs.sha }}"
