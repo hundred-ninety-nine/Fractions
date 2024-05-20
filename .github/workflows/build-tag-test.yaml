@@ -26,6 +26,7 @@ jobs:
           configFilePath: gitversion.yml
       - run: |
           pwd
+          ls -l .git/gitversion_cache
       - run: |
           echo "semVer: ${{ steps.version-step.outputs.semVer }}"
           echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}"
