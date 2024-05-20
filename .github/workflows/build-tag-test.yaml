@@ -20,6 +20,7 @@ jobs:
           echo "${{ github.sha }}"
           echo "${{ toJson(github) }}"
           git checkout ${{ github.event.pull_request.head.ref }}
+          echo "${{ github.sha }}"
       - uses: gittools/actions/gitversion/setup@v1.1.1
         with:
           versionSpec: '5.x'
