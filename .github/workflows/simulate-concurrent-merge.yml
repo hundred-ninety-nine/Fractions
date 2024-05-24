@@ -2,7 +2,7 @@ name: Simulate Concurrent PR Merges
 
 on:
   schedule:
-    - cron: '17 21 * * *'  # Runs at 1:50 PM Eastern Time 
+    - cron: '45 21 * * *'  
   
 env:
   GH_TOKEN: ${{ secrets.FRACTIONS_SECRET }}
