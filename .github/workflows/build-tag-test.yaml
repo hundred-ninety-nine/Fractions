@@ -16,6 +16,7 @@ jobs:
         run: |
           tag_pattern="[0-9]*.[0-9]*.[0-9]*"
           version_pattern="(.*)([0-9]+\.[0-9]+\.[0-9]+-?[a-zA-Z0-9]*)(.*)"
+          git for-each-ref --sort=-committerdate --count=1 --format '%(refname)' "refs/tags/$tag_pattern"
           tag=$(git for-each-ref --sort=-committerdate --count=1 --format '%(refname)' "refs/tags/$tag_pattern" | cut -d / -f 3-)
           tag_commit=$(git rev-list -n 1 $tag)
           echo "GitHub Run ID: ${{ github.run_id }} - Latest tag: $tag ($tag_commit)"
