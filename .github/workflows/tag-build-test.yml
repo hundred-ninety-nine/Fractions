@@ -9,6 +9,9 @@ on:
 jobs:
   tag:
     runs-on: ubuntu-latest
+    outputs:
+      latest_tag: ${{ steps.retrieve_tag.outputs.latest_tag }}
+      latest_commit: ${{ steps.retrieve_tag.outputs.latest_commit }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -18,7 +21,32 @@ jobs:
         run: |
           tag_pattern="[0-9]*.[0-9]*.[0-9]*"
           version_pattern="(.*)([0-9]+\.[0-9]+\.[0-9]+-?[a-zA-Z0-9]*)(.*)"
+          ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           tag=$(git for-each-ref --sort=-committerdate --count=1 --format '%(refname)' "refs/tags/$tag_pattern" | cut -d / -f 3-)
           tag_commit=$(git rev-list -n 1 $tag)
-          echo "GitHub Run ID: ${{ github.run_id }} - Latest tag: $tag ($tag_commit)"
-          echo "latest_tag=$tag" >> $GITHUB_ENV
+          echo "$ts [  TAG] GitHub Run ID is ${{ github.run_id }} - Latest tag is $tag ($tag_commit)"
+          echo "latest_tag=$tag" >> $GITHUB_OUTPUT
+          echo "latest_commit=$tag_commit" >> $GITHUB_OUTPUT
+
+      - name: Delay 30 seconds
+        run: |
+          echo "Simulating delay to increase chance of race condition..."
+          sleep 30  # Delay for 30 seconds
+
+  build:
+    needs: tag
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "$ts [BUILD] GitHub Run ID: ${{ github.run_id }} - Latest tag is ${{ needs.tag.outputs.latest_tag  }} (${{ needs.tag.outputs.latest_commit  }})"
+
+  test:
+    needs: 
+      - tag
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "$ts [ TEST] GitHub Run ID: ${{ github.run_id }} - Latest tag is ${{ needs.tag.outputs.latest_tag  }} (${{ needs.tag.outputs.latest_commit  }})"
