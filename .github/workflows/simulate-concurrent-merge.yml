@@ -2,7 +2,7 @@ name: Simulate Concurrent PR Merges
 
 on:
   schedule:
-    - cron: '30 18 * * *'  # Runs at 1:50 PM Eastern Time 
+    - cron: '10 20 * * *'  # Runs at 1:50 PM Eastern Time 
 
 permissions:
   contents: write
