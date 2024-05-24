@@ -21,4 +21,4 @@ jobs:
           tag=$(git for-each-ref --sort=-committerdate --count=1 --format '%(refname)' "refs/tags/$tag_pattern" | cut -d / -f 3-)
           tag_commit=$(git rev-list -n 1 $tag)
           echo "GitHub Run ID: ${{ github.run_id }} - Latest tag: $tag ($tag_commit)"
-          echo "::set-output name=latest_tag::$tag"
+          echo "latest_tag=$tag" >> $GITHUB_ENV
