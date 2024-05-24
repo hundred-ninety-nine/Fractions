@@ -6,7 +6,7 @@ package numeric;
 import java.math.BigInteger;
 
 /**
- * @author Ivan Chang
+ * @author
  *
  */
 public final class Fraction extends Number implements Comparable<Fraction> {
