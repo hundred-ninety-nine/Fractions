@@ -2,14 +2,11 @@ name: Simulate Concurrent PR Merges
 
 on:
   schedule:
-    - cron: '10 20 * * *'  # Runs at 1:50 PM Eastern Time 
+    - cron: '40 20 * * *'  # Runs at 1:50 PM Eastern Time 
 
 permissions:
   contents: write
   pull-requests: write
-
-env:
-  GH_TOKEN: ${{ github.token }}
 
 jobs:
   simulate_concurrent_merge:
@@ -24,3 +21,5 @@ jobs:
             echo "Merging PR #$pr"
             gh pr merge $pr --merge --admin
           done
+        env:
+          GH_TOKEN: ${{ secrets.FRACTIONS_TOKEN }}
