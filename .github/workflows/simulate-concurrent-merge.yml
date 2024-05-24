@@ -2,7 +2,7 @@ name: Simulate Concurrent PR Merges
 
 on:
   schedule:
-    - cron: '30 17 * * *'  # Runs at 1:30 PM Eastern Time 
+    - cron: '50 17 * * *'  # Runs at 1:50 PM Eastern Time 
 
 permissions:
   contents: write
@@ -14,11 +14,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: GitHub CLI
-        uses: actions/setup-gh@v2
-        with:
-          token: ${{ secrets.FRACTIONS_TOKEN }}
 
       - name: Merge pull requests
         run: |
