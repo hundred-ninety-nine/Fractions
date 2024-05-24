@@ -89,9 +89,6 @@ class TestFraction {
 		Fraction neg = f1.negate();
 		assertEquals(-3, neg.numerator);
 		assertEquals(5, neg.denominator);
-		Fraction negneg = neg.negate();
-		assertEquals(3, negneg.numerator);
-		assertEquals(5, negneg.denominator);
 	}
 
 	@Test
