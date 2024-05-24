@@ -5,7 +5,7 @@ on:
     - cron: '47 20 * * *'  # Runs at 1:50 PM Eastern Time 
   
 env:
-  GH_TOKEN: ${{ secrets.FRACTIONS_TOKEN }}
+  GH_TOKEN: ${{ secrets.FRACTIONS_SECRET }}
 
 permissions:
   contents: write
