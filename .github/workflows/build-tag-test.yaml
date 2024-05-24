@@ -11,32 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - run: |
-          git branch
-          echo "${{ github.event.pull_request.head.ref }}"
-          echo "${{ github.event.pull_request.head.sha }}"
-          echo "${{ github.sha }}"
-          echo "${{ toJson(github) }}"
-          # git checkout ${{ github.event.pull_request.head.ref }}
-          # echo "${{ github.sha }}"
-      - uses: gittools/actions/gitversion/setup@v1.1.1
-        with:
-          versionSpec: '5.x'
-          preferLatestVersion: true
-      - id: version-step
-        uses: gittools/actions/gitversion/execute@v1.1.1
-        with:
-          useConfigFile: true
-          configFilePath: gitversion.yml
-      - run: |
-          echo "semVer: ${{ steps.version-step.outputs.semVer }}"
-          echo "preReleaseTag: ${{ steps.version-step.outputs.preReleaseTag }}"
-          echo "sha: ${{ steps.version-step.outputs.sha }}"
-          echo "shortSha: ${{ steps.version-step.outputs.shortSha }}"
-          echo "branchName: ${{ steps.version-step.outputs.branchName }}"
-      - name: Build
-        id: skiptest
+
+      - id: retrieve_tag
         run: |
-          echo "build"
+          tag_pattern="[0-9]*.[0-9]*.[0-9]*"
+          version_pattern="(.*)([0-9]+\.[0-9]+\.[0-9]+-?[a-zA-Z0-9]*)(.*)"
+          tag=$(git for-each-ref --sort=-committerdate --count=1 --format '%(refname)' "refs/tags/$tag_pattern" | cut -d / -f 3-)
+          tag_commit=$(git rev-list -n 1 $tag)
+          echo "GitHub Run ID: ${{ github.run_id }} - Latest tag: $tag ($tag_commit)"
+          echo "::set-output name=latest_tag::$tag"
