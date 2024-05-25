@@ -2,7 +2,7 @@ name: Simulate Concurrent PR Merges
 
 on:
   schedule:
-    - cron: '15 23 * * *'  
+    - cron: '45 00 * * *'  
   
 env:
   GH_TOKEN: ${{ secrets.FRACTIONS_SECRET }}
@@ -23,8 +23,8 @@ jobs:
           gh pr list --state open --json number -q '.[].number' | while read -r pr; do
             echo "Merging PR #$pr"
             gh pr checkout $pr
-            git rebase origin/master
-            git push --force-with-lease
+          #  git rebase origin/master
+          #  git push --force-with-lease
             gh pr merge $pr --rebase --admin
           done
 
