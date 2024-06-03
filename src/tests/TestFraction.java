@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import numeric.Fraction;
 
-// Unit test examples
 class TestFraction {
 
 	Fraction f1;
