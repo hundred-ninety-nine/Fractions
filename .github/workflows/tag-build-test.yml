@@ -74,7 +74,12 @@ jobs:
           # Sleep for the random delay
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
-          
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "IC"
+          git config --global user.email "ic238694@gmail.com"
+    
       - name: Update version file
         if: github.ref == 'refs/heads/master'
         run: |
