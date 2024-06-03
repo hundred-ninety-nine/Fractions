@@ -55,7 +55,7 @@ jobs:
           sleep "$random_delay" 
 
       - name: Create new tag
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: |
           new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
           git tag -f "$new_version"
@@ -75,7 +75,7 @@ jobs:
           sleep "$random_delay" 
           
       - name: Update version file
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: |
           new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
           sed -i "s/version=.*/version=$new_version-SNAPSHOT/" version.txt
