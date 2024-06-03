@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - id: retrieve_tag
+      - id: retrieve_and_increment_tag
         run: |
           tag_pattern="[0-9]*.[0-9]*.[0-9]*"
           version_pattern="(.*)([0-9]+\.[0-9]+\.[0-9]+-?[a-zA-Z0-9]*)(.*)"
@@ -27,6 +27,18 @@ jobs:
           echo "$ts [  TAG] GitHub Run ID is ${{ github.run_id }} - Latest tag is $tag ($tag_commit)"
           echo "latest_tag=$tag" >> $GITHUB_OUTPUT
           echo "latest_commit=$tag_commit" >> $GITHUB_OUTPUT
+          # Extract the major, minor, and patch parts of the version
+          IFS='.' read -r -a version_parts <<< "$latest_tag"
+          major="${version_parts[0]}"
+          minor="${version_parts[1]}"
+          patch="${version_parts[2]}"
+        
+          # Increment the patch version
+          patch=$((patch + 1))
+        
+          # Form the new version
+          new_version="$major.$minor.$patch"
+          echo "New version: $new_version"
 
       - name: Delay up to 10 seconds
         run: |
