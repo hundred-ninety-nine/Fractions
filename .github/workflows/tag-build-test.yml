@@ -10,6 +10,9 @@ jobs:
   tag:
     if: "!startsWith(github.event.head_commit.message, 'bump version file')"
     runs-on: ubuntu-latest
+    concurrency:
+      group: fraction-group
+      cancel-in-progress: false
     outputs:
       latest_tag: ${{ steps.retrieve_and_increment_tag.outputs.latest_tag }}
       latest_commit: ${{ steps.retrieve_and_increment_tag.outputs.latest_commit }}
