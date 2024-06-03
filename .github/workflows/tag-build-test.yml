@@ -8,6 +8,7 @@ on:
     paths-ignore: [ '**.md' ]
 jobs:
   tag:
+    if: "!startsWith(github.event.head_commit.message, 'bump version file')"
     runs-on: ubuntu-latest
     outputs:
       latest_tag: ${{ steps.retrieve_and_increment_tag.outputs.latest_tag }}
@@ -53,8 +54,6 @@ jobs:
           # Sleep for the random delay
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
-          ls -l
-          cat version.txt
 
       - name: Create new tag
         if: github.ref == 'refs/heads/master'
@@ -81,6 +80,10 @@ jobs:
         run: |
           new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
           sed -i "s/version=.*/version=$new_version-SNAPSHOT/" version.txt
+          cat version.txt
+          git add version.txt
+          git commit -m "bump version file to $new_version-SNAPSHOT"
+          git push origin master
 
   build:
     needs: tag
