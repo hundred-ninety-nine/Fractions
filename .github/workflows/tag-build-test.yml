@@ -55,34 +55,6 @@ jobs:
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
 
-      - name: Set up Git
-        run: |
-          git config --global user.name "IC"
-          git config --global user.email "ic238694@gmail.com"
-    
-      - name: Update version file
-        if: github.ref == 'refs/heads/master'
-        run: |
-          new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
-          sed -i "s/version=.*/version=$new_version-SNAPSHOT/" version.txt
-          cat version.txt
-          git add version.txt
-          git commit -m "bump version file to $new_version-SNAPSHOT"
-          git push origin master
-
-      - name: Delay up to 5 seconds
-        run: |
-          # Generate a random number between 0 and 32767
-          random_number=$RANDOM
-          echo "random_number=$random_number"
-          
-          # Scale the random number to a range between 0 and 5
-          random_delay=$(echo "$random_number % 6" | bc)
-          
-          # Sleep for the random delay
-          echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
-          sleep "$random_delay" 
-
       - name: Create new tag
         if: github.ref == 'refs/heads/master'
         run: |
