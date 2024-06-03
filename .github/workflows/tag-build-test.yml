@@ -10,8 +10,8 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     outputs:
-      latest_tag: ${{ steps.retrieve_tag.outputs.latest_tag }}
-      latest_commit: ${{ steps.retrieve_tag.outputs.latest_commit }}
+      latest_tag: ${{ steps.retrieve_and_increment_tag.outputs.latest_tag }}
+      latest_commit: ${{ steps.retrieve_and_increment_tag.outputs.latest_commit }}
     steps:
       - uses: actions/checkout@v4
         with:
