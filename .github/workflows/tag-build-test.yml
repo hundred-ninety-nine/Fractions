@@ -39,6 +39,7 @@ jobs:
           # Form the new version
           new_version="$major.$minor.$patch"
           echo "New version: $new_version"
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
       - name: Delay up to 10 seconds
         run: |
@@ -52,6 +53,13 @@ jobs:
           # Sleep for the random delay
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
+
+      - name: Create new tag
+        if: github.ref == 'refs/heads/main'
+        run: |
+          new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
+          git tag "$new_version"
+          git push origin "$new_version"
 
   build:
     needs: tag
