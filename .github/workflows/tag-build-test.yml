@@ -28,7 +28,7 @@ jobs:
           echo "latest_tag=$tag" >> $GITHUB_OUTPUT
           echo "latest_commit=$tag_commit" >> $GITHUB_OUTPUT
           # Extract the major, minor, and patch parts of the version
-          IFS='.' read -r -a version_parts <<< "$latest_tag"
+          IFS='.' read -r -a version_parts <<< "$tag"
           major="${version_parts[0]}"
           minor="${version_parts[1]}"
           patch="${version_parts[2]}"
