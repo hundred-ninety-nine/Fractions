@@ -32,6 +32,7 @@ jobs:
         run: |
           # Generate a random number between 0 and 32767
           random_number=$RANDOM
+          echo "random_number=$random_number"
           
           # Scale the random number to a range between 0 and 10
           random_delay=$(echo "$random_number % 11" | bc)
