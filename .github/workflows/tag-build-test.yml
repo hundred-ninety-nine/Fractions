@@ -60,7 +60,7 @@ jobs:
         run: |
           new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
           git tag -f "$new_version"
-          git push -f origin "$new_version"
+          git push -f --tags
 
   build:
     needs: tag
