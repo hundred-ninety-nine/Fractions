@@ -42,26 +42,6 @@ jobs:
           echo "New version: $new_version"
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
-      - name: Delay up to 10 seconds
-        run: |
-          # Generate a random number between 0 and 32767
-          random_number=$RANDOM
-          echo "random_number=$random_number"
-          
-          # Scale the random number to a range between 0 and 10
-          random_delay=$(echo "$random_number % 11" | bc)
-          
-          # Sleep for the random delay
-          echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
-          sleep "$random_delay" 
-
-      - name: Create new tag
-        if: github.ref == 'refs/heads/master'
-        run: |
-          new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
-          git tag -f "$new_version"
-          git push -f origin "$new_version"
-
       - name: Delay up to 5 seconds
         run: |
           # Generate a random number between 0 and 32767
@@ -89,6 +69,26 @@ jobs:
           git add version.txt
           git commit -m "bump version file to $new_version-SNAPSHOT"
           git push origin master
+
+      - name: Delay up to 5 seconds
+        run: |
+          # Generate a random number between 0 and 32767
+          random_number=$RANDOM
+          echo "random_number=$random_number"
+          
+          # Scale the random number to a range between 0 and 5
+          random_delay=$(echo "$random_number % 6" | bc)
+          
+          # Sleep for the random delay
+          echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
+          sleep "$random_delay" 
+
+      - name: Create new tag
+        if: github.ref == 'refs/heads/master'
+        run: |
+          new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
+          git tag -f "$new_version"
+          git push -f origin "$new_version"
 
   build:
     needs: tag
