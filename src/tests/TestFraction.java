@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import numeric.Fraction;
 
-// pr-20240604-13
+// pr-20240604-23
 class TestFraction {
 
 	Fraction f1;
