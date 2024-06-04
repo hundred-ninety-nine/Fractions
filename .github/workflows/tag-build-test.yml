@@ -17,7 +17,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: ben-z/gh-action-mutex@v1.0.0-alpha.9
+      - name: Delay up to 5 seconds
+        run: |
+          # Generate a random number between 0 and 32767
+          random_number=$RANDOM
+          echo "random_number=$random_number"
+          
+          # Scale the random number to a range between 0 and 5
+          random_delay=$(echo "$random_number % 6" | bc)
+          
+          # Sleep for the random delay
+          echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
+          sleep "$random_delay" 
+      - uses: ahmadnassri/action-workflow-queue@v1.2.0
       - id: retrieve_and_increment_tag
         run: |
           tag_pattern="[0-9]*.[0-9]*.[0-9]*"
