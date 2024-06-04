@@ -14,9 +14,6 @@ jobs:
       latest_tag: ${{ steps.retrieve_and_increment_tag.outputs.latest_tag }}
       latest_commit: ${{ steps.retrieve_and_increment_tag.outputs.latest_commit }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Delay up to 5 seconds
         run: |
           # Generate a random number between 0 and 32767
@@ -29,7 +26,10 @@ jobs:
           # Sleep for the random delay
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
-      - uses: ahmadnassri/action-workflow-queue@v1.2.0
+      - uses: ben-z/gh-action-mutex@v1.0.0-alpha.9
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - id: retrieve_and_increment_tag
         run: |
           tag_pattern="[0-9]*.[0-9]*.[0-9]*"
