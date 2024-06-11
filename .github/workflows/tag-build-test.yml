@@ -10,6 +10,9 @@ jobs:
   tag:
     if: "!startsWith(github.event.head_commit.message, 'bump version file')"
     runs-on: ubuntu-latest
+    concurrency:
+      group: bump_tag
+      cancel-in-progress: false
     outputs:
       latest_tag: ${{ steps.retrieve_and_increment_tag.outputs.latest_tag }}
       latest_commit: ${{ steps.retrieve_and_increment_tag.outputs.latest_commit }}
@@ -26,7 +29,6 @@ jobs:
           # Sleep for the random delay
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
-      - uses: ben-z/gh-action-mutex@v1.0.0-alpha.9
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
