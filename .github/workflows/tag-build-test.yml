@@ -79,7 +79,7 @@ jobs:
           git add version.txt
           git commit -m "bump version file to ${{ steps.retrieve_and_increment_tag.outputs.new_version }}"
           git tag -f "$new_version"
-          git push -f --tags
+          git push origin master -f --tags
 
   build:
     needs: tag
