@@ -1,0 +1,65 @@
+name: Bump Version and Tag
+description: Bumps the version and creates a new tag if it is a release.
+inputs:
+  mainline:
+    description: 'Name of the main branch'
+    required: true
+    default: 'main'
+  use_version_file:
+    description: 'Flag to use version file'
+    required: false
+    default: 'false'
+  is_release:
+    description: 'Flag to indicate if this is a release'
+    required: true
+outputs:
+  new_version:
+    description: 'The new version number'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Retrieve and increment tag
+      id: retrieve_and_increment_tag
+      run: |
+        tag_pattern="[0-9]*.[0-9]*.[0-9]*"
+        tag=$(git for-each-ref --sort=-committerdate --count=1 --format '%(refname)' "refs/tags/$tag_pattern" | cut -d / -f 3-)
+        if [ -z "$tag" ]; then
+          tag="0.0.0"
+        fi
+
+        # Extract the major, minor, and patch parts of the version
+        IFS='.' read -r -a version_parts <<< "$tag"
+        major="${version_parts[0]}"
+        minor="${version_parts[1]}"
+        patch="${version_parts[2]}"
+
+        # Increment the patch version
+        patch=$((patch + 1))
+
+        # Form the new version
+        new_version="$major.$minor.$patch"
+
+        echo "new_version=$new_version" >> $GITHUB_OUTPUT
+        echo "New version: $new_version"
+
+    - name: Update version file if needed
+      if: ${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' }}
+      run: |
+        new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
+        sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/$new_version/" version.txt
+        git add version.txt
+        git commit -m "bump version file to $new_version"
+
+    - name: Create new tag
+      if: ${{ inputs.is_release == 'true' }}
+      run: |
+        new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git tag -f "$new_version"
+        git push origin ${{ inputs.mainline }} -f --tags
