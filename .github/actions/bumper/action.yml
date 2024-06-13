@@ -15,6 +15,7 @@ inputs:
 outputs:
   new_version:
     description: 'The new version number'
+    value: ${{ steps.retrieve_and_increment_tag.outputs.new_version }}
 runs:
   using: 'composite'
   steps:
@@ -29,20 +30,20 @@ runs:
         tag_pattern="[0-9]*.[0-9]*.[0-9]*"
         tag=$(git for-each-ref --sort=-committerdate --count=1 --format '%(refname)' "refs/tags/$tag_pattern" | cut -d / -f 3-)
         if [ -z "$tag" ]; then
-          tag="0.0.0"
+          new_version="0.0.0"
+        else
+          # Extract the major, minor, and patch parts of the version
+          IFS='.' read -r -a version_parts <<< "$tag"
+          major="${version_parts[0]}"
+          minor="${version_parts[1]}"
+          patch="${version_parts[2]}"
+  
+          # Increment the patch version
+          patch=$((patch + 1))
+  
+          # Form the new version
+          new_version="$major.$minor.$patch"
         fi
-
-        # Extract the major, minor, and patch parts of the version
-        IFS='.' read -r -a version_parts <<< "$tag"
-        major="${version_parts[0]}"
-        minor="${version_parts[1]}"
-        patch="${version_parts[2]}"
-
-        # Increment the patch version
-        patch=$((patch + 1))
-
-        # Form the new version
-        new_version="$major.$minor.$patch"
 
         echo "new_version=$new_version" >> $GITHUB_OUTPUT
         echo "New version: $new_version"
