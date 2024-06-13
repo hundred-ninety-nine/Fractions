@@ -59,7 +59,7 @@ runs:
       if: ${{ inputs.is_release == 'true' }}
       run: |
         new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
+        git config --global user.name 'ic238694'
+        git config --global user.email 'ic238694@gmail.com'
         git tag -f "$new_version"
         git push origin ${{ inputs.mainline }} -f --tags
