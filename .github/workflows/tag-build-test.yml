@@ -28,6 +28,7 @@ jobs:
           # Sleep for the random delay
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
+      - uses: actions/checkout@v4
       - name: Bump version and create tag
         id: bumper
         uses: ./.github/actions/bumper
