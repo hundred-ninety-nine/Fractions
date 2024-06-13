@@ -26,6 +26,7 @@ runs:
 
     - name: Retrieve and increment tag
       id: retrieve_and_increment_tag
+      shell: bash
       run: |
         tag_pattern="[0-9]*.[0-9]*.[0-9]*"
         tag=$(git for-each-ref --sort=-committerdate --count=1 --format '%(refname)' "refs/tags/$tag_pattern" | cut -d / -f 3-)
@@ -50,6 +51,7 @@ runs:
 
     - name: Update version file if needed
       if: ${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' }}
+      shell: bash
       run: |
         new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
         sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/$new_version/" version.txt
@@ -58,6 +60,7 @@ runs:
 
     - name: Create new tag
       if: ${{ inputs.is_release == 'true' }}
+      shell: bash
       run: |
         new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
         git config --global user.name 'ic238694'
