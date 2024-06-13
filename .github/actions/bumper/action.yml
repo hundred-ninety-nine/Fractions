@@ -55,6 +55,8 @@ runs:
       run: |
         new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
         sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/$new_version/" version.txt
+        git config --global user.name 'ic238694'
+        git config --global user.email 'ic238694@gmail.com'
         git add version.txt
         git commit -m "bump version file to $new_version"
 
