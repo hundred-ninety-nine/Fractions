@@ -11,13 +11,14 @@ jobs:
     if: "!startsWith(github.event.head_commit.message, 'bump version file')"
     runs-on: ubuntu-latest
     concurrency:
-      group: bumper_group
+      group: ${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.ref_name }}-bumper
       cancel-in-progress: false
     outputs:
       new_version: ${{ steps.bumper.outputs.new_version }}
     steps:
       - name: Delay up to 5 seconds
         run: |
+          echo "${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.ref_name }}-bumper"
           # Generate a random number between 0 and 32767
           random_number=$RANDOM
           echo "random_number=$random_number"
