@@ -31,9 +31,8 @@ jobs:
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay"
 
-          echo "GITHUB_REF=$GITHUB_REF"
-
           if [ "$GITHUB_REF" = "refs/heads/master" ]; then
+            echo "GITHUB_REF=$GITHUB_REF"
             is_release=$(shuf -e true false -n 1)
           else
             is_release=false
