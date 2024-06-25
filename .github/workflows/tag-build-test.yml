@@ -36,7 +36,7 @@ jobs:
         with:
           mainline: 'master'
           use_version_file: 'true'
-          is_release: 'true'
+          is_release: 'false'
 
   build:
     needs: tag
