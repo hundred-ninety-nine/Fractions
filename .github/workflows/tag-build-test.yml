@@ -31,7 +31,7 @@ jobs:
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
 
-          if [ "${{ env.GITHUB_REF }}" = "refs/heads/master" ]; then
+          if [ "$GITHUB_REF" = "refs/heads/master" ]; then
             is_release=$(shuf -e true false -n 1)
           else
             is_release=false
