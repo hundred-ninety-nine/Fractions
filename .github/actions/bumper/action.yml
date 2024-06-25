@@ -60,7 +60,7 @@ runs:
         echo "${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' && github.ref == format('refs/heads/{0}', inputs.mainline) }}"
 
     - name: Update version file if needed
-      if: ${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' && github.ref == 'refs/heads/${{ inputs.mainline }}' }}
+      if: ${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' && github.ref == format('refs/heads/{0}', inputs.mainline) }}
       shell: bash
       run: |
         new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
@@ -71,7 +71,7 @@ runs:
         git commit -m "bump version file to $new_version"
 
     - name: Create new tag
-      if: ${{ inputs.is_release == 'true' && github.ref == 'refs/heads/${{ inputs.mainline }}' }}
+      if: ${{ inputs.is_release == 'true' && && github.ref == format('refs/heads/{0}', inputs.mainline) }}
       shell: bash
       run: |
         new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
