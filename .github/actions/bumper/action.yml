@@ -46,11 +46,16 @@ runs:
           new_version="$major.$minor.$patch"
         fi
 
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          pr_hash=$(echo "${{ github.sha }}" | cut -c1-7)
+          new_version="$new_version-$pr_hash"
+        fi
+        
         echo "new_version=$new_version" >> $GITHUB_OUTPUT
         echo "New version: $new_version"
 
     - name: Update version file if needed
-      if: ${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' }}
+      if: ${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' && github.ref == 'refs/heads/${{ inputs.mainline }}' }}
       shell: bash
       run: |
         new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
@@ -61,7 +66,7 @@ runs:
         git commit -m "bump version file to $new_version"
 
     - name: Create new tag
-      if: ${{ inputs.is_release == 'true' }}
+      if: ${{ inputs.is_release == 'true' && github.ref == 'refs/heads/${{ inputs.mainline }}' }}
       shell: bash
       run: |
         new_version=${{ steps.retrieve_and_increment_tag.outputs.new_version }}
