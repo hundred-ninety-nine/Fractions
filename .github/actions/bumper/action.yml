@@ -47,7 +47,7 @@ runs:
         fi
 
         if [ "${{ github.event_name }}" = "pull_request" ]; then
-          pr_hash=$(echo "${{ github.sha }}" | cut -c1-7)
+          pr_hash=$(echo "${{ github.event.pull_request.head.sha }}" | cut -c1-7)
           new_version="$new_version-$pr_hash"
         fi
         
