@@ -57,7 +57,7 @@ runs:
         echo "Mainline: ${{ inputs.mainline }}"
         echo "is_release: ${{ inputs.is_release }}"
         echo "use_version_file: ${{ inputs.use_version_file }}"
-        echo "${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' && github.ref == 'refs/heads/${{ inputs.mainline }}' }}"
+        echo "${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' }}"
 
     - name: Update version file if needed
       if: ${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' && github.ref == 'refs/heads/${{ inputs.mainline }}' }}
