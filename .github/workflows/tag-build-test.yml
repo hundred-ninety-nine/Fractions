@@ -32,6 +32,7 @@ jobs:
           sleep "$random_delay"
 
           if [ "$GITHUB_REF" = "refs/heads/master" ]; then
+            echo "GITHUB_REF=$GITHUB_REF"
             is_release=$(shuf -e true false -n 1)
           else
             is_release=false
