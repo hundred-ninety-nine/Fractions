@@ -8,7 +8,7 @@ inputs:
   use_version_file:
     description: 'Flag to use version file'
     required: false
-    default: false
+    default: 'false'
   is_release:
     description: 'Flag to indicate if this is a release'
     required: true
