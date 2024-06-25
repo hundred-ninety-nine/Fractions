@@ -53,6 +53,8 @@ runs:
         
         echo "new_version=$new_version" >> $GITHUB_OUTPUT
         echo "New version: $new_version"
+        echo "Ref: ${{ github.ref }}"
+        echo "Ref: ${{ inputs.mainline }}"
 
     - name: Update version file if needed
       if: ${{ inputs.is_release == 'true' && inputs.use_version_file == 'true' && github.ref == 'refs/heads/${{ inputs.mainline }}' }}
