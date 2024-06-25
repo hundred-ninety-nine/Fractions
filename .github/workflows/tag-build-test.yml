@@ -16,7 +16,8 @@ jobs:
     outputs:
       new_version: ${{ steps.bumper.outputs.new_version }}
     steps:
-      - name: Delay up to 5 seconds
+      - name: Random delay up to 5 seconds
+        id: rd
         run: |
           echo "${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.ref_name }}-bumper"
           # Generate a random number between 0 and 32767
@@ -29,6 +30,11 @@ jobs:
           # Sleep for the random delay
           echo "Simulating delay of $random_delay second(s) to increase chance of race condition..."
           sleep "$random_delay" 
+
+          is_release=$(shuf -e true false -n 1)
+          echo "is_release=$is_release"
+          echo "is_release=$is_release" >> $GITHUB_ENV
+          echo "is_release=$is_release" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
       - name: Bump version and create tag
         id: bumper
@@ -36,7 +42,7 @@ jobs:
         with:
           mainline: 'master'
           use_version_file: 'true'
-          is_release: 'true'
+          is_release: ${{ steps.rd.outputs.is_release }}
 
   build:
     needs: tag
