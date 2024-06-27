@@ -14,3 +14,4 @@ jobs:
         run: |
           COMMIT_HASH=${{ github.event.workflow_run.head_commit.id }}
           echo "Associate commit hash $COMMIT_HASH to test"
+          sleep 10
