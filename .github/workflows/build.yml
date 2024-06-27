@@ -2,7 +2,7 @@ name: Build Workflow
 
 on:
   workflow_run:
-    workflows: ["Tag, build, test", "Test Workflow"]
+    workflows: ["Test Workflow"]
     types:
       - completed
 
