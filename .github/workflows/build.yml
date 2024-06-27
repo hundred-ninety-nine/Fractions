@@ -1,0 +1,16 @@
+name: Build Workflow
+
+on:
+  workflow_run:
+    workflows: ["Tag, build, test", "Test Workflow"]
+    types:
+      - completed
+
+jobs:
+  use-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Commit Hash and Run Build
+        run: |
+          COMMIT_HASH=${{ github.event.workflow_run.head_commit.id }}
+          echo "Associate commit hash $COMMIT_HASH to build"
