@@ -12,6 +12,6 @@ jobs:
     steps:
       - name: Use Commit Hash and Run Test
         run: |
-          COMMIT_HASH=${{ github.event.workflow_run.head_commit.id }}
+          COMMIT_HASH=${{ github.sha }}
           echo "Associate commit hash $COMMIT_HASH to test"
           sleep 10
